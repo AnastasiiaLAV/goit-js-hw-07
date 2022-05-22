@@ -29,7 +29,6 @@ function createsPictureCards(items) {
 }
 
 function openPicture(e) {
-
     if (!e.target.classList.contains('gallery__image')) {
         return;
     }
@@ -40,11 +39,13 @@ function openPicture(e) {
     );
     instance.show()
 
-    function closePicture(e) {
+    document.addEventListener('keydown', closePicture);
 
+    function closePicture(e) {
+        console.log(e);
         if (e.code === 'Escape') {
-            return instance.close();
+            document.removeEventListener('keydown', closePicture);
         }
+        return instance.close();
     }
-    window.addEventListener('keydown', closePicture);
 }
