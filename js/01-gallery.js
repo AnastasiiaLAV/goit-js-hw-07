@@ -35,17 +35,22 @@ function openPicture(e) {
     e.preventDefault();
 
     const instance = basicLightbox.create(
-        `<img src="${e.target.dataset.source}">`,
-    );
-    instance.show()
+        `<img src="${e.target.dataset.source}">`, {
+            closable: true,
+            onClose: () => {
+                document.removeEventListener('keydown', closePicture);
+            },
+            onShow: () => {
+                document.addEventListener('keydown', closePicture);
+            },
+        });
 
-    document.addEventListener('keydown', closePicture);
+    instance.show()
 
     function closePicture(e) {
         console.log(e);
         if (e.code === 'Escape') {
-            document.removeEventListener('keydown', closePicture);
+            return instance.close();
         }
-        return instance.close();
     }
 }
